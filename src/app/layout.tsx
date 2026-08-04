@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google';
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
-import { CartDrawer } from '@/components/cart/cart-drawer';
+import { SiteShell } from '@/components/layout/site-shell';
 import { QueryProvider } from '@/components/providers/query-provider';
 import { AuthProvider } from '@/components/providers/auth-provider';
 import { Toaster } from '@/components/ui/toast';
@@ -45,10 +43,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-warm text-ink antialiased">
         <QueryProvider>
           <AuthProvider>
-            <Navbar />
-            <main className="pt-18 min-h-[60vh]">{children}</main>
-            <Footer />
-            <CartDrawer />
+            <SiteShell>{children}</SiteShell>
             <Toaster />
           </AuthProvider>
         </QueryProvider>

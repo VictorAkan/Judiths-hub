@@ -71,13 +71,16 @@ export default function AccountPage() {
           <span className="text-sm font-semibold text-ink">Wishlist</span>
           <span className="text-xs text-muted/60">Your saved pieces</span>
         </Link>
-        <div className="flex flex-col items-center gap-3 p-8 border border-pink-100 bg-white text-center rounded-2xl shadow-soft">
-          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-100 flex items-center justify-center">
+        <Link
+          href="/account/profile"
+          className="flex flex-col items-center gap-3 p-8 border border-pink-100 bg-white hover:bg-pink-50/50 transition-all duration-200 text-center rounded-2xl shadow-soft hover:shadow-glow group"
+        >
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-100 flex items-center justify-center group-hover:scale-110 transition-transform">
             <User size={26} className="text-pink-500" strokeWidth={1.5} />
           </div>
-          <span className="text-sm font-semibold text-ink">Profile</span>
-          <span className="text-xs text-muted/60">{email}</span>
-        </div>
+          <span className="text-sm font-semibold text-ink group-hover:text-pink-600 transition-colors">Profile</span>
+          <span className="text-xs text-muted/60">View and edit your details</span>
+        </Link>
       </div>
     </div>
   );
