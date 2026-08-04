@@ -5,10 +5,11 @@ import { Badge } from '@/components/ui/badge';
 import { Heart } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import type { Product } from '@/types/product';
-import { useWishlistStore } from '@/stores/use-wishlist-store';
+import { useWishlist } from '@/hooks/use-wishlist';
 import { CONDITION_LABELS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 interface ProductCardProps {
   product: Product;
@@ -16,8 +17,15 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { isInWishlist, toggleProduct } = useWishlistStore();
+  const { isInWishlist, toggleWishlist } = useWishlist();
   const inWishlist = isInWishlist(product.id);
+
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(product.id);
+    toast.success(inWishlist ? 'Removed from wishlist' : 'Added to wishlist');
+  };
 
   return (
     <motion.div
@@ -56,11 +64,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Wishlist button */}
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleProduct(product.id);
-          }}
+          onClick={handleWishlistToggle}
           className={cn(
             'absolute top-3 right-3 p-2.5 rounded-full transition-all duration-200',
             'opacity-0 group-hover:opacity-100 focus:opacity-100',
@@ -85,12 +89,12 @@ export function ProductCard({ product }: ProductCardProps) {
       {/* Info */}
       <div className="mt-3 space-y-1 px-0.5">
         <Link href={`/product/${product.slug}`}>
-          <h3 className="text-sm font-medium text-ink group-hover:text-pink-600 transition-colors line-clamp-1">
+          <h3 className="product-title text-ink group-hover:text-pink-600 transition-colors line-clamp-1">
             {product.name}
           </h3>
         </Link>
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-ink">{formatPrice(product.price)}</span>
+          <span className="product-price text-ink">{formatPrice(product.price)}</span>
           {product.compare_at_price && product.compare_at_price > product.price && (
             <span className="text-xs text-muted/50 line-through">
               {formatPrice(product.compare_at_price)}

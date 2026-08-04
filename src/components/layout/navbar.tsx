@@ -7,10 +7,12 @@ import { useAuthStore } from '@/stores/use-auth-store';
 import { MobileNav } from './mobile-nav';
 import { SITE_NAME } from '@/lib/constants';
 import { useEffect, useState } from 'react';
+import { ADMIN_EMAIL } from '@/lib/admin-constants';
 
 export function Navbar() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, email } = useAuthStore();
   const [scrolled, setScrolled] = useState(false);
+  const isAdmin = email?.toLowerCase() === ADMIN_EMAIL;
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -81,6 +83,14 @@ export function Navbar() {
           >
             <User size={18} strokeWidth={1.5} />
           </Link>
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-semibold uppercase tracking-wider shadow-sm hover:shadow-glow transition-all"
+            >
+              Admin
+            </Link>
+          )}
           <CartIcon />
           <div className="md:hidden">
             <MobileNav />

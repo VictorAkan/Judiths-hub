@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/use-cart-store';
-import { useWishlistStore } from '@/stores/use-wishlist-store';
+import { useWishlist } from '@/hooks/use-wishlist';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Heart, ChevronLeft, Check, Sparkles } from 'lucide-react';
@@ -12,7 +12,6 @@ import { CONDITION_LABELS } from '@/lib/constants';
 import { toast } from 'sonner';
 import type { Product, ProductSize } from '@/types/product';
 import { motion } from 'framer-motion';
-import { SITE_NAME } from '@/lib/constants';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -25,7 +24,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { addItem } = useCartStore();
-  const { isInWishlist, toggleProduct } = useWishlistStore();
+  const { isInWishlist, toggleWishlist } = useWishlist();
   const inWishlist = isInWishlist(product.id);
 
   const handleAddToCart = () => {
@@ -220,7 +219,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               variant="outline"
               size="lg"
               onClick={() => {
-                toggleProduct(product.id);
+                toggleWishlist(product.id);
                 toast.success(
                   inWishlist ? 'Removed from wishlist' : 'Added to wishlist'
                 );
